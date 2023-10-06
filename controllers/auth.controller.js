@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
     }
 
     // generate login token
-    const token = JWT.sign({ userId: userWithEmail._id }, JWT_SECRET, {
+    const token = JWT.sign({ _id: userWithEmail[0]._id }, JWT_SECRET, {
       expiresIn: "1h",
     });
 
@@ -73,7 +73,6 @@ exports.login = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log({error})
     res.status(500).send({
       message: "Internal Server Error!",
     });
