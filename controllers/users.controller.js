@@ -37,3 +37,28 @@ exports.GetUserData = async (req, res) => {
     });
   }
 };
+
+exports.DeleteUserData = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const user = await UserModel.find({ _id });
+    if (!user.length) {
+      return res.status(404).send({
+        message: "No user found!",
+      });
+    }
+    const deleted = await UserModel.deleteOne({ _id });
+    if (!deleted) {
+      return res.status(500).send({
+        message: "Internal server error!",
+      });
+    }
+    res.status(200).send({
+      message: "User data deleted successfully!",
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal server error!",
+    });
+  }
+};
